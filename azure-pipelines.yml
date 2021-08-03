@@ -15,7 +15,21 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'sonarcloud connection'
+    organization: 'techforceai'
+    scannerMode: 'MSBuild'
+    projectKey: 'pipelines-javascript12'
+    projectName: 'pipelines-javascript12'
+
 - script: |
     npm install
     npm run build
   displayName: 'npm install and build'
+
+
+- task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
